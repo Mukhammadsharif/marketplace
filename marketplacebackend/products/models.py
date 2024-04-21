@@ -13,7 +13,7 @@ def file_upload_path(instance, filename):
 class File(models.Model):
     # File metadata
     name = models.CharField(max_length=255)
-    file = models.FileField(upload_to=file_upload_path)
+    file = models.FileField(upload_to='files')
 
     def __str__(self):
         return self.name
