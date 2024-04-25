@@ -10,6 +10,15 @@ def file_upload_path(instance, filename):
     return os.path.join('uploads', str(instance.id), filename)
 
 
+class ProductImage(models.Model):
+    product = models.ForeignKey('Product', related_name='photos', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product_images')
+    caption = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.caption if self.caption else f"Image for Product {self.product.id}"
+
+
 class File(models.Model):
     # File metadata
     name = models.CharField(max_length=255)
@@ -30,7 +39,6 @@ class Product(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     text = models.CharField(max_length=255, blank=True, null=True)
     files = models.ManyToManyField(File, related_name='images', blank=True, null=True)
-    images = models.ManyToManyField(File, related_name='files', blank=True, null=True)
     features = RichTextField(blank=True, null=True)
 
     def __str__(self):
