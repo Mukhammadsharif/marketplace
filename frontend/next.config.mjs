@@ -4,9 +4,9 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'tailwindui.com',
+                hostname: '**.com',
                 port: '',
-                pathname: '/img/logos/**'
+                pathname: '/**'
             },
         ],
     },

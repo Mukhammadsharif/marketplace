@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import Footer from "@/components/Footer";
+import MaterialFooter from "@/components/MaterialFooter";
 
 const products = [
     { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
@@ -208,7 +209,7 @@ export default function MainLayout({ children }) {
 
             {children}
 
-            <Footer />
+            <MaterialFooter />
         </div>
     );
 }
