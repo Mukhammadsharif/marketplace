@@ -12,9 +12,15 @@ class ProductImageInline(admin.StackedInline):
     extra = 1  # Specifies the number of extra forms in the formset.
 
 
+class ProductModelInline(admin.StackedInline):
+    model = ProductModel
+    extra = 1  # Specifies the number of extra forms in the formset.
+
+
 class ProductAdmin(admin.ModelAdmin):
     inlines = [
         ProductImageInline,
+        ProductModelInline,
     ]
 
 

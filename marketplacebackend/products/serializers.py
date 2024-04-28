@@ -24,13 +24,12 @@ class ProductModelSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     model = ProductModelSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
-    files = FileSerializer(many=True, read_only=True)
     photos = ProductImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = ['name', 'photo', 'description', 'producer', 'model', 'category', 'views', 'title', 'text',
-                  'files', 'features', 'photos']
+        fields = ['name', 'photo', 'description', 'producer', 'model', 'category', 'views',
+                  'features', 'photos']
 
         def to_representation(self, instance):
             data = super().to_representation(instance)

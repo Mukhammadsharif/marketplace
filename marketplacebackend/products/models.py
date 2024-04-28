@@ -33,12 +33,8 @@ class Product(models.Model):
     photo = models.ImageField(upload_to='products', blank=True, null=True)
     description = RichTextField(blank=True, null=True)
     producer = models.CharField(max_length=255, blank=True, null=True)
-    model = models.ForeignKey('ProductModel', blank=True, null=True, related_name='products', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
-    title = models.CharField(max_length=255, blank=True, null=True)
-    text = models.CharField(max_length=255, blank=True, null=True)
-    files = models.ManyToManyField(File, related_name='images', blank=True, null=True)
     features = RichTextField(blank=True, null=True)
 
     def __str__(self):
@@ -51,6 +47,7 @@ class ProductModel(models.Model):
     count = models.IntegerField(default=1)
     available = models.BooleanField(default=True)
     status = models.BooleanField(default=True)
+    product = models.ForeignKey('Product', related_name='models', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
