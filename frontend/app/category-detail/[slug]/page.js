@@ -1,18 +1,19 @@
 import MainLayout from "@/layouts/MainLayout";
-import Products from "@/components/Products";
 import fetchRequest from "@/helpers/request";
 import {CATEGORIES, DOMAIN, PRODUCT_DETAIL} from "@/helpers/urls";
+import CategoryProducts from "@/components/CategoryProducts";
 
-export async function loader(slug) {
+export async function loader() {
     const categories = await fetchRequest(`${DOMAIN}${CATEGORIES}`);
     return { categories };
 }
 
-export default async function Home() {
-    const {categories} = await loader();
+export default async function CategoryDetailPage({params}) {
+    const { slug } = params;
+    const {categories} = await loader(slug);
     return (
         <MainLayout categories={categories}>
-            <Products />
+            <CategoryProducts categoryId={slug}/>
         </MainLayout>
     );
 }

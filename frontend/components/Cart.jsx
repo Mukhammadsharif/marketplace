@@ -3,6 +3,7 @@ import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from "next/link";
+import {Input} from "@material-tailwind/react";
 
 export default function Cart({ open, setOpen}) {
     const [products, setProducts] = useState([])
@@ -16,14 +17,16 @@ export default function Cart({ open, setOpen}) {
             // If products exist, parse them into a JavaScript array
             if (storedProducts) {
                 let checkout = 0
-                JSON.parse(storedProducts).forEach((product) => {
-                    if (product?.model) {
-                        checkout = checkout + parseInt(product?.model?.price)
+                let withQuantity = []
+                JSON.parse(storedProducts).forEach((item) => {
+                    if (item?.model) {
+                        checkout = checkout + parseInt(item?.model?.price)
                     }
+                    withQuantity.push({...item, product: {...item?.product, quantity: item?.product.quantity ?? 1}})
                 })
                 setSum(checkout)
 
-                return JSON.parse(storedProducts);
+                return withQuantity;
             }
         }
         // Return an empty array if no products found or if it's running on the server
@@ -51,6 +54,8 @@ export default function Cart({ open, setOpen}) {
             }
         }
     }
+
+    console.log(products)
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -83,7 +88,7 @@ export default function Cart({ open, setOpen}) {
                                     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                                         <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                                             <div className="flex items-start justify-between">
-                                                <Dialog.Title className="text-lg font-medium text-gray-900">Shopping cart</Dialog.Title>
+                                                <Dialog.Title className="text-lg font-medium text-gray-900">Корзина</Dialog.Title>
                                                 <div className="ml-3 flex h-7 items-center">
                                                     <button
                                                         type="button"
@@ -120,8 +125,30 @@ export default function Cart({ open, setOpen}) {
                                                                         </div>
                                                                         <p className="mt-1 text-sm text-gray-500">{product?.model?.name}</p>
                                                                     </div>
-                                                                    <div className="flex flex-1 items-end justify-between text-sm">
-                                                                        <p className="text-gray-500">Qty 1</p>
+                                                                    <div
+                                                                        className="flex flex-1 items-end justify-between text-sm mt-2">
+                                                                        <input
+                                                                            value={product?.product?.quantity}
+                                                                            onChange={(e) => {
+                                                                                let withQuantity = []
+                                                                                products?.forEach((item) => {
+                                                                                    if (item?.product?.id !== product?.product?.id) {
+                                                                                        withQuantity.push({...item})
+                                                                                    } else  {
+                                                                                        withQuantity.push({...item, product: {...item?.product, quantity: e.target.value}})
+                                                                                    }
+                                                                                })
+                                                                                setProducts(withQuantity)
+                                                                                localStorage.setItem('products', JSON.stringify(withQuantity));
+                                                                            }}
+                                                                            style={{width: 70}}
+                                                                            min={1}
+                                                                            type="number"
+                                                                            name="last-name"
+                                                                            id="last-name"
+                                                                            autoComplete="family-name"
+                                                                            className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                                        />
 
                                                                         <div className="flex">
                                                                             <button
@@ -129,7 +156,7 @@ export default function Cart({ open, setOpen}) {
                                                                                 type="button"
                                                                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                                                                             >
-                                                                                Remove
+                                                                                Удалить
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -148,12 +175,12 @@ export default function Cart({ open, setOpen}) {
                                             </div>
                                             <p className="mt-0.5 text-sm text-gray-500">Подтвердите заказ</p>
                                             <div className="mt-6">
-                                                <a
-                                                    href="#"
+                                                <Link
+                                                    href={'/order'}
                                                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                                                 >
                                                     Заказать
-                                                </a>
+                                                </Link>
                                             </div>
                                             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                                                 <p>

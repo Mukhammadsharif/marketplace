@@ -1,6 +1,6 @@
 import Link from "next/link";
 import fetchRequest from "@/helpers/request";
-import {CATEGORIES, DOMAIN, PRODUCTS} from "@/helpers/urls";
+import {DOMAIN, PRODUCTS} from "@/helpers/urls";
 import Image from "next/image";
 
 export async function loader() {

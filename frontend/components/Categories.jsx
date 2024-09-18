@@ -19,7 +19,7 @@ export default async function Categories() {
 
                     <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
                         {categories?.length ? categories?.filter((item) => !item?.parent).map((category, index) => (
-                            <Link href={`/category-detail/${category.id}`} key={index} className="group relative">
+                            <Link href={category?.is_parent ? `/sub-category/${category?.id}` : `/category-detail/${category?.id}`} key={index} className="group relative">
                                 <div
                                     className="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 mt-5">
                                     <Image

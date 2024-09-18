@@ -11,6 +11,7 @@ class Category(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     description = RichTextField()
     status = models.BooleanField(default=True)
+    is_parent = models.BooleanField(default=False)
     image = models.ImageField(upload_to='categories', blank=True, null=True)
 
     def __str__(self):

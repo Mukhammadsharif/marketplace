@@ -8,7 +8,7 @@ export async function loader() {
     return { products };
 }
 
-export default async function Products() {
+export default async function CategoryProducts({categoryId}) {
     const {products} = await loader();
     return (
         <div className="bg-white">
@@ -16,7 +16,7 @@ export default async function Products() {
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900">Товары</h2>
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    {products?.length ? products.slice(0, 7).map((product, index) => (
+                    {products?.length ? products.filter((item) => item?.category?.id === parseInt(categoryId)).map((product, index) => (
                         <Link className="group relative" href={`/product-detail/${product?.id}`} key={index}>
                             <div
                                 className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
