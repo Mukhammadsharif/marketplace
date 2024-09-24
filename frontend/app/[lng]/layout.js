@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import "./globals.css";
 import { dir } from 'i18next'
 import { languages } from '../i18n/settings'
@@ -7,7 +7,7 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }))
 }
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Havo Air",
@@ -28,7 +28,7 @@ export default function RootLayout({ children, params: { lng } }) {
       <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
       <title>Havo Air</title>
     </head>
-    <body className={inter.className}>
+    <body>
         {children}
     </body>
     </html>
