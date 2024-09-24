@@ -10,11 +10,11 @@ export async function loader() {
     return { categories, contacts, socials };
 }
 
-export default async function ConditionsPage() {
+export default async function ConditionsPage({ params: { lng } }) {
     const {categories, contacts, socials} = await loader();
 
     return (
-        <MainLayout categories={categories} contacts={contacts} socials={socials}>
+        <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
             <Conditions />
         </MainLayout>
     );

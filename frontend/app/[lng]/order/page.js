@@ -10,11 +10,11 @@ export async function loader() {
     return { categories, contacts, socials };
 }
 
-export default async function ProductDetailPage() {
+export default async function ProductDetailPage({ params: { lng } }) {
     const {categories, contacts, socials} = await loader();
 
     return (
-        <MainLayout categories={categories} contacts={contacts} socials={socials}>
+        <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
             <Order />
         </MainLayout>
     );

@@ -1,19 +1,21 @@
 import MainLayout from "@/layouts/MainLayout";
 import fetchRequest from "@/helpers/request";
-import {CATEGORIES, DOMAIN} from "@/helpers/urls";
+import {CATEGORIES, CONTACTS, DOMAIN, SOCIALS} from "@/helpers/urls";
 import Link from "next/link";
 import Image from "next/image";
 
 export async function loader() {
     const categories = await fetchRequest(`${DOMAIN}${CATEGORIES}`);
-    return { categories };
+    const contacts = await fetchRequest(`${DOMAIN}${CONTACTS}`);
+    const socials = await fetchRequest(`${DOMAIN}${SOCIALS}`);
+    return { categories, contacts, socials };
 }
 
-export default async function CategoryDetailPage({params}) {
-    const { slug } = params;
-    const {categories} = await loader(slug);
+export default async function CategoryDetailPage({ params: { lng, slug } }) {
+    const {categories, socials, contacts} = await loader(slug);
+
     return (
-        <MainLayout categories={categories}>
+        <MainLayout categories={categories} socials={socials} contacts={contacts} lng={lng}>
             <div className="bg-gray-100">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">

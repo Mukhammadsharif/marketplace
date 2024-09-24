@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'http',
-                hostname: '45.130.148.52',
+                hostname: 'havogroup.uz',
                 // port: '8000',
                 pathname: '/**'
             },

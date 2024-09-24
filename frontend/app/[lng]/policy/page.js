@@ -10,11 +10,11 @@ export async function loader() {
     return { categories, contacts, socials };
 }
 
-export default async function PolicyPage() {
+export default async function PolicyPage({ params: { lng } }) {
     const {categories, contacts, socials} = await loader();
 
     return (
-        <MainLayout categories={categories} contacts={contacts} socials={socials}>
+        <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
             <Policy />
         </MainLayout>
     );

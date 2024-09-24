@@ -113,7 +113,7 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                     </Link>
                 </Popover.Group>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <div className="text-sm font-semibold leading-6 text-gray-900" onClick={() => setOpen(!open)}>
+                    <div className="text-sm font-semibold leading-6 text-gray-900 mr-5" onClick={() => setOpen(!open)}>
                         <IconButton color="black" size={'lg'}>
                             <i className="fas fa-cart-plus"></i>
                         </IconButton>
@@ -200,6 +200,8 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                                         <i className="fas fa-cart-plus"></i>
                                     </IconButton>
                                 </div>
+
+                                <LanguageSwitcher lng={lng}/>
                             </div>
                         </div>
                     </div>

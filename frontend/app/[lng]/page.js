@@ -20,7 +20,7 @@ export async function loader() {
 
 export default async function Home({ params: { lng } }) {
   const { producers, categories, contacts, socials } = await loader();
-  console.log(lng, 'lng')
+
   return (
     <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
       {/*<Banner />*/}

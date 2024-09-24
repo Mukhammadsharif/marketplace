@@ -1,36 +1,49 @@
 "use client";
+import { Menu } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const LanguageSwitcher = ({lng}) => {
     return (
-        <div className="relative inline-block text-left">
+        <Menu as="div" className="relative inline-block text-left">
             <div>
-                <button type="button"
-                        className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                        id="menu-button" aria-expanded="true" aria-haspopup="true">
+                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     {lng?.toUpperCase()}
-                    <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
-                         aria-hidden="true">
-                        <path fill-rule="evenodd"
-                              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </button>
+                    <ChevronDownIcon aria-hidden="true" className="-mr-1 h-5 w-5 text-gray-400" />
+                </Menu.Button>
             </div>
 
-            <div
-                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-                <div className="py-1" role="none">
-
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1"
-                       id="menu-item-0">Account settings</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1"
-                       id="menu-item-1">Support</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1"
-                       id="menu-item-2">License</a>
+            <Menu.Items
+                transition
+                className="absolute right-0 z-10 mt-2 w-20 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+            >
+                <div className="py-1">
+                    <Menu.Item>
+                        <a
+                            href="/uz"
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            UZ
+                        </a>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <a
+                            href="/kr"
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            KR
+                        </a>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <a
+                            href="/ru"
+                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
+                        >
+                            RU
+                        </a>
+                    </Menu.Item>
                 </div>
-            </div>
-        </div>
+            </Menu.Items>
+        </Menu>
     );
 };
 

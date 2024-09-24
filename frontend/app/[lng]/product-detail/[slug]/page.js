@@ -1,20 +1,21 @@
 import MainLayout from "@/layouts/MainLayout";
 import ProductDetail from "@/components/ProductDetail";
 import fetchRequest from "@/helpers/request";
-import {CATEGORIES, DOMAIN, PRODUCT_DETAIL, PRODUCTS} from "@/helpers/urls";
+import {CATEGORIES, CONTACTS, DOMAIN, PRODUCT_DETAIL, PRODUCTS, SOCIALS} from "@/helpers/urls";
 
 export async function loader(slug) {
     const product = await fetchRequest(`${DOMAIN}${PRODUCT_DETAIL.replace('id', slug)}`);
     const categories = await fetchRequest(`${DOMAIN}${CATEGORIES}`);
-    return { product, categories };
+    const contacts = await fetchRequest(`${DOMAIN}${CONTACTS}`);
+    const socials = await fetchRequest(`${DOMAIN}${SOCIALS}`);
+    return { product, categories, contacts, socials };
 }
 
-export default async function ProductDetailPage({params}) {
-    const { slug } = params;
-    const {product, categories} = await loader(slug);
+export default async function ProductDetailPage({ params: {lng, slug} }) {
+    const {product, categories, contacts, socials} = await loader(slug);
 
     return (
-        <MainLayout categories={categories}>
+        <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
             <ProductDetail product={product} />
         </MainLayout>
     );
