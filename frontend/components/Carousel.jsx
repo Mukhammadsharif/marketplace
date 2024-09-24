@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export function CarouselDefault() {
     return (
-        <Carousel className="rounded-xl" style={{height: 400}}>
+        <Carousel className="rounded-xl" style={{height: 500}}>
             <img
                 src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
                 alt="image 1"

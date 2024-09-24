@@ -1,5 +1,11 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { dir } from 'i18next'
+import { languages } from '../i18n/settings'
+
+export async function generateStaticParams() {
+  return languages.map((lng) => ({ lng }))
+}
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -8,9 +14,9 @@ export const metadata = {
   description: "Havo Air Group",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, params: { lng } }) {
   return (
-    <html lang="en">
+    <html lang={lng} dir={dir(lng)}>
     <head>
       <link
           rel="stylesheet"
@@ -19,9 +25,12 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
       />
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
       <title>Havo Air</title>
     </head>
-    <body className={inter.className}>{children}</body>
+    <body className={inter.className}>
+        {children}
+    </body>
     </html>
   );
 }

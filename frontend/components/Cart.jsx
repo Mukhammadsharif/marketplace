@@ -8,6 +8,7 @@ import {Input} from "@material-tailwind/react";
 export default function Cart({ open, setOpen}) {
     const [products, setProducts] = useState([])
     const [sum, setSum] = useState(0)
+    const [toggle, setToggle] = useState(false)
 
     function getProductsFromLocalStorage() {
         if (typeof window !== 'undefined') {
@@ -20,7 +21,7 @@ export default function Cart({ open, setOpen}) {
                 let withQuantity = []
                 JSON.parse(storedProducts).forEach((item) => {
                     if (item?.model) {
-                        checkout = checkout + parseInt(item?.model?.price)
+                        checkout = checkout + parseInt(item?.model?.price) * item?.product?.quantity
                     }
                     withQuantity.push({...item, product: {...item?.product, quantity: item?.product.quantity ?? 1}})
                 })
@@ -35,7 +36,7 @@ export default function Cart({ open, setOpen}) {
 
     useEffect(() => {
         setProducts(getProductsFromLocalStorage());
-    }, [open])
+    }, [open, toggle])
 
     function removeProductFromLocalStorage(productIndex) {
         if (typeof window !== 'undefined') {
@@ -54,8 +55,6 @@ export default function Cart({ open, setOpen}) {
             }
         }
     }
-
-    console.log(products)
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -140,6 +139,7 @@ export default function Cart({ open, setOpen}) {
                                                                                 })
                                                                                 setProducts(withQuantity)
                                                                                 localStorage.setItem('products', JSON.stringify(withQuantity));
+                                                                                setToggle(!toggle)
                                                                             }}
                                                                             style={{width: 70}}
                                                                             min={1}

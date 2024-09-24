@@ -4,24 +4,23 @@ import {useEffect, useState} from "react";
 import {DOMAIN} from "@/helpers/urls";
 import {NextResponse} from "next/server";
 
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+// function getCookie(name) {
+//     let cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         const cookies = document.cookie.split(';');
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i].trim();
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
 
 // Making POST request
-const csrfToken = getCookie('csrftoken');  // Get CSRF token from cookie
-
+// const csrfToken = getCookie('csrftoken');  // Get CSRF token from cookie
 
 export async function POST(event, body) {
     event.preventDefault();
@@ -29,7 +28,7 @@ export async function POST(event, body) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
+            // 'X-CSRFToken': csrfToken,
         },
         body: JSON.stringify(body),
         credentials: 'include',
@@ -79,8 +78,6 @@ export default function Order() {
         order_text: `${products[0]?.product?.name??'ss'}`,
         sum: sum,
     });
-
-    console.log(products[0]?.product?.name)
 
     return (
         <div className="isolate bg-white px-6 py-24 sm:py-12 lg:px-8">

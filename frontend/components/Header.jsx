@@ -1,46 +1,35 @@
 import {Fragment, useState} from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
-import {
-    ArrowPathIcon,
-    Bars3Icon,
-    ChartPieIcon,
-    CursorArrowRaysIcon,
-    FingerPrintIcon,
-    SquaresPlusIcon,
-    XMarkIcon,
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import Link from "next/link";
 import Image from "next/image";
 import {IconButton} from "@material-tailwind/react";
+import Logo from '../app/assets/logo-01.svg'
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
 const callsToAction = [
-    { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-    { name: 'Contact sales', href: '#', icon: PhoneIcon },
+    { name: 'Позвонить', href: '#', icon: PhoneIcon },
 ]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Header({open, setOpen, categories}) {
+export default function Header({open, setOpen, categories, contacts, lng}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
         <header className="bg-white">
-            <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+            <nav className="mx-auto flex max-w-8xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link href="/" className="-m-1.5 p-1.5">
                         <span className="sr-only">Your Company</span>
-                        <img className="h-8 w-auto"
-                             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""/>
+                        <Image
+                            src={Logo}
+                            alt="footer_logo"
+                            className="w-[18rem]"
+                        />
                     </Link>
                 </div>
                 <div className="flex lg:hidden">
@@ -97,15 +86,15 @@ export default function Header({open, setOpen, categories}) {
                                         </div>
                                     )) : ''}
                                 </div>
-                                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                                <div className="grid grid-cols-1 divide-x divide-gray-900/5 bg-gray-50">
                                     {callsToAction.map((item) => (
                                         <a
                                             key={item.name}
-                                            href={item.href}
-                                            className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
+                                            href={`tel:${contacts?.find((item) => item?.name === 'phone' && item.status)?.contact}`}
+                                            className="flex items-center justify-center gap-x-2.5 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                                         >
                                             <item.icon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true"/>
-                                            {item.name}
+                                            {item.name}: {contacts?.find((item) => item?.name === 'phone' && item.status)?.contact}
                                         </a>
                                     ))}
                                 </div>
@@ -113,15 +102,15 @@ export default function Header({open, setOpen, categories}) {
                         </Transition>
                     </Popover>
 
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                        Features
-                    </a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                        Marketplace
-                    </a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                        Company
-                    </a>
+                    <Link href="/about" className="text-sm font-semibold leading-6 text-gray-900">
+                        О нас
+                    </Link>
+                    <Link href="/policy" className="text-sm font-semibold leading-6 text-gray-900">
+                        Политика конфеденциальности
+                    </Link>
+                    <Link href="/conditions" className="text-sm font-semibold leading-6 text-gray-900">
+                        Условия пользования
+                    </Link>
                 </Popover.Group>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <div className="text-sm font-semibold leading-6 text-gray-900" onClick={() => setOpen(!open)}>
@@ -129,6 +118,8 @@ export default function Header({open, setOpen, categories}) {
                             <i className="fas fa-cart-plus"></i>
                         </IconButton>
                     </div>
+
+                    <LanguageSwitcher lng={lng}/>
                 </div>
             </nav>
 
@@ -183,24 +174,24 @@ export default function Header({open, setOpen, categories}) {
                                         </>
                                     )}
                                 </Disclosure>
-                                <a
-                                    href="#"
+                                <Link
+                                    href="/about"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Features
-                                </a>
-                                <a
-                                    href="#"
+                                    О нас
+                                </Link>
+                                <Link
+                                    href="/policy"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Marketplace
-                                </a>
-                                <a
-                                    href="#"
+                                    Политика конфеденциальности
+                                </Link>
+                                <Link
+                                    href="/conditions"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Company
-                                </a>
+                                    Условия пользования
+                                </Link>
                             </div>
                             <div className="py-6">
                                 <div className="text-sm font-semibold leading-6 text-gray-900"

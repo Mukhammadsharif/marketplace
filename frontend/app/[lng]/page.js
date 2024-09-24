@@ -6,21 +6,24 @@ import Information from "@/components/Information";
 import Products from "@/components/Products";
 import Categories from "@/components/Categories";
 import {CarouselDefault} from "@/components/Carousel";
-import {CATEGORIES, DOMAIN, PRODUCERS} from "@/helpers/urls";
+import {CATEGORIES, CONTACTS, DOMAIN, PRODUCERS, SOCIALS} from "@/helpers/urls";
 import fetchRequest from "@/helpers/request";
 
 export async function loader() {
     const producers = await fetchRequest(`${DOMAIN}${PRODUCERS}`);
     const categories = await fetchRequest(`${DOMAIN}${CATEGORIES}`);
-    return { producers, categories };
+    const contacts = await fetchRequest(`${DOMAIN}${CONTACTS}`);
+    const socials = await fetchRequest(`${DOMAIN}${SOCIALS}`);
+    return { producers, categories, contacts, socials };
 }
 
 
-export default async function Home() {
-  const { producers, categories } = await loader();
+export default async function Home({ params: { lng } }) {
+  const { producers, categories, contacts, socials } = await loader();
+  console.log(lng, 'lng')
   return (
-    <MainLayout categories={categories}>
-      <Banner />
+    <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
+      {/*<Banner />*/}
       <CarouselDefault />
       <Categories />
       <Products />

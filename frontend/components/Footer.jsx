@@ -14,7 +14,7 @@ function Footer() {
                             <Image
                                 width={200}
                                 height={200}
-                                src={require('../public/logo-havo.svg')}
+                                src={require('../public/logo-havo.png')}
                                 alt="footer_logo"
                                 className="w-[18rem]"
                             />
