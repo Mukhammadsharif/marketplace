@@ -8,7 +8,9 @@ export const ContextProvider = ({ children }) => {
 
     useEffect(() => {
         let products = localStorage.getItem('products');
-        setProductsLength(JSON.parse(products)?.length);
+        if (products) {
+            setProductsLength(JSON.parse(products)?.length);
+        }
     }, [productToggle]);
 
 
