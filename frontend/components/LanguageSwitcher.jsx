@@ -1,8 +1,41 @@
 "use client";
 import { Menu } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import {usePathname, useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
 
 const LanguageSwitcher = ({lng}) => {
+    const [isClient, setIsClient] = useState(false);
+    const router = useRouter();
+    const pathname = usePathname(); // Get the current path
+
+    // Ensures that the component only runs on the client-side
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setIsClient(true);
+        }
+    }, []);
+
+    const handleLanguageChange = (newLang) => {
+        if (!isClient || !pathname) return; // Prevent execution if not on the client or if pathname is undefined
+
+        // Split the current path and replace the language segment
+        const segments = pathname.split('/');
+
+        // Ensure there's enough segments to replace the language
+        if (segments.length > 1) {
+            segments[1] = newLang; // Assuming language is in the second segment (like /kr/)
+        }
+
+        const newPath = segments.join('/');
+        router.push(newPath); // Use router to navigate to the new path
+    };
+
+    if (!isClient || !pathname) {
+        // Return nothing or a fallback UI until we are sure it's running client-side and pathname is available
+        return null;
+    }
+
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
@@ -18,28 +51,19 @@ const LanguageSwitcher = ({lng}) => {
             >
                 <div className="py-1">
                     <Menu.Item>
-                        <a
-                            href="/uz"
-                            className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            UZ
-                        </a>
+                        <button className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900" onClick={() => handleLanguageChange('uz')}>UZ</button>
                     </Menu.Item>
                     <Menu.Item>
-                        <a
-                            href="/kr"
+                        <button
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            KR
-                        </a>
+                            onClick={() => handleLanguageChange('kr')}>KR
+                        </button>
                     </Menu.Item>
                     <Menu.Item>
-                        <a
-                            href="/ru"
+                        <button
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                        >
-                            RU
-                        </a>
+                            onClick={() => handleLanguageChange('ru')}>RU
+                        </button>
                     </Menu.Item>
                 </div>
             </Menu.Items>

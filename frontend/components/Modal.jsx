@@ -5,17 +5,27 @@ import {
     IconButton,
     Typography,
 } from "@material-tailwind/react";
-import React from "react";
+import React, {useEffect} from "react";
 
-export function Modal() {
+export function Modal({ modal, setModal, text}) {
+
+    useEffect(() => {
+        setTimeout(() => setModal(!modal), 3000);
+    }, [])
+
     return (
-        <section>
+        <section style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+        }}>
             <div className="w-full px-4">
                 <div className="grid h-screen place-items-center">
                     <Card className="max-w-xl">
                         <CardBody>
                             <div className="flex w-full justify-end">
-                                <IconButton variant="text">
+                                <IconButton variant="text" onClick={() => setModal(!modal)}>
                                     <i className="fas fa-close text-xl"></i>
                                 </IconButton>
                             </div>
@@ -25,13 +35,13 @@ export function Modal() {
                                     className="mb-6 mt-10"
                                     variant="h4"
                                 >
-                                    Welcome to our website!
+                                   Уведомдение
                                 </Typography>
                                 <Typography className="text-[20px] font-normal text-gray-500">
-                                    Don&apos;t miss out on the latest deals and promotions.
+                                    {text}
                                 </Typography>
-                                <Button size="lg" className="mt-8">
-                                    join our community
+                                <Button size="lg" className="mt-8" onClick={() => setModal(!modal)}>
+                                    Закрыть
                                 </Button>
                             </div>
                         </CardBody>
@@ -42,4 +52,4 @@ export function Modal() {
     );
 }
 
-export default PopupSection7;
+export default Modal;
