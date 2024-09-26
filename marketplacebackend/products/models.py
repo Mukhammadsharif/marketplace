@@ -30,6 +30,9 @@ class File(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
+    name_uz = models.CharField(max_length=255, blank=True, null=True)
+    name_ru = models.CharField(max_length=255, blank=True, null=True)
+    name_kr = models.CharField(max_length=255, blank=True, null=True)
     photo = models.ImageField(upload_to='products', blank=True, null=True)
     description = RichTextField(blank=True, null=True)
     producer = models.CharField(max_length=255, blank=True, null=True)
@@ -43,6 +46,9 @@ class Product(models.Model):
 
 class ProductModel(models.Model):
     name = models.CharField(max_length=255)
+    name_uz = models.CharField(max_length=255, blank=True, null=True)
+    name_ru = models.CharField(max_length=255, blank=True, null=True)
+    name_kr = models.CharField(max_length=255, blank=True, null=True)
     price = models.CharField(max_length=20)
     count = models.IntegerField(default=1)
     available = models.BooleanField(default=True)
