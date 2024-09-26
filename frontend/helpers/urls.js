@@ -1,5 +1,5 @@
 // export const DOMAIN = 'http://127.0.0.1:8000';
-export const DOMAIN = 'http://havogroup.uz';
+export const DOMAIN = 'https://havogroup.uz';
 
 export const PRODUCERS = '/api/producers/'
 
