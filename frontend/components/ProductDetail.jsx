@@ -4,6 +4,7 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { RadioGroup } from '@headlessui/react'
 import Image from "next/image";
 import Link from "next/link";
+import {useProducts} from "@/components/Context";
 
 const reviews = { href: '#', average: 5, totalCount: 117 }
 
@@ -13,6 +14,7 @@ function classNames(...classes) {
 
 export default function ProductDetail({product}) {
     const [selectedModel, setSelectedModel] = useState(null)
+    const { productToggle, setProductToggle} = useProducts()
 
     useEffect(() => {
         if (product?.models?.length) {
@@ -32,6 +34,8 @@ export default function ProductDetail({product}) {
 
             // Save back to localStorage
             localStorage.setItem('products', JSON.stringify(products));
+
+            setProductToggle(!productToggle);
         }
     }
 

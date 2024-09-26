@@ -3,12 +3,13 @@ import {Fragment, useEffect, useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from "next/link";
-import {Input} from "@material-tailwind/react";
+import {useProducts} from "@/components/Context";
 
 export default function Cart({ open, setOpen}) {
     const [products, setProducts] = useState([])
     const [sum, setSum] = useState(0)
     const [toggle, setToggle] = useState(false)
+    const { productToggle, setProductToggle } = useProducts();
 
     function getProductsFromLocalStorage() {
         if (typeof window !== 'undefined') {
@@ -21,7 +22,7 @@ export default function Cart({ open, setOpen}) {
                 let withQuantity = []
                 JSON.parse(storedProducts).forEach((item) => {
                     if (item?.model) {
-                        checkout = checkout + parseInt(item?.model?.price) * item?.product?.quantity
+                        checkout = checkout + parseInt(item?.model?.price) * (parseInt(item?.product?.quantity) > 1 ? parseInt(item?.product?.quantity) : 1)
                     }
                     withQuantity.push({...item, product: {...item?.product, quantity: item?.product.quantity ?? 1}})
                 })
@@ -52,6 +53,8 @@ export default function Cart({ open, setOpen}) {
                 localStorage.setItem('products', JSON.stringify(products));
 
                 setProducts(getProductsFromLocalStorage());
+
+                setProductToggle(!productToggle);
             }
         }
     }

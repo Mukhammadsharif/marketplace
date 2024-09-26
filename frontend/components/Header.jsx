@@ -4,9 +4,10 @@ import {Bars3Icon, XMarkIcon,} from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon } from '@heroicons/react/20/solid'
 import Link from "next/link";
 import Image from "next/image";
-import {IconButton} from "@material-tailwind/react";
+import {IconButton, Badge} from "@material-tailwind/react";
 import Logo from '../app/assets/logo-01.svg'
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import {useProducts} from "@/components/Context";
 
 const callsToAction = [
     { name: 'Позвонить', href: '#', icon: PhoneIcon },
@@ -18,6 +19,7 @@ function classNames(...classes) {
 
 export default function Header({open, setOpen, categories, contacts, lng}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const { productsLength } = useProducts();
 
     return (
         <header className="bg-white">
@@ -113,10 +115,12 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                     </Link>
                 </Popover.Group>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <div className="text-sm font-semibold leading-6 text-gray-900 mr-5" onClick={() => setOpen(!open)}>
+                    <div className="text-sm font-semibold text-gray-900 mr-5"
+                         onClick={() => setOpen(!open)}>
                         <IconButton color="black" size={'lg'}>
                             <i className="fas fa-cart-plus"></i>
                         </IconButton>
+                        {productsLength ? <Badge content={productsLength} size="sm" style={{ marginTop: -20 }} /> : ''}
                     </div>
 
                     <LanguageSwitcher lng={lng}/>
@@ -130,10 +134,10 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                     <div className="flex items-center justify-between">
                         <Link href="/" className="-m-1.5 p-1.5">
                             <span className="sr-only">Your Company</span>
-                            <img
-                                className="h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                alt=""
+                            <Image
+                                src={Logo}
+                                alt="footer_logo"
+                                className="w-[18rem]"
                             />
                         </Link>
                         <button
@@ -193,12 +197,13 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                                     Условия пользования
                                 </Link>
                             </div>
-                            <div className="py-6">
+                            <div className="py-6 flex items-center justify-between">
                                 <div className="text-sm font-semibold leading-6 text-gray-900"
                                      onClick={() => setOpen(!open)}>
                                     <IconButton color="black" size={'lg'}>
                                         <i className="fas fa-cart-plus"></i>
                                     </IconButton>
+                                    {productsLength ? <Badge content={productsLength} size="sm" style={{ marginTop: -20 }} /> : ''}
                                 </div>
 
                                 <LanguageSwitcher lng={lng}/>
