@@ -1,21 +1,37 @@
 import Link from "next/link";
 import fetchRequest from "@/helpers/request";
-import {CATEGORIES, DOMAIN, PRODUCERS} from "@/helpers/urls";
+import { CATEGORIES, DOMAIN } from "@/helpers/urls";
 import Image from "next/image";
+import { useTranslation } from "@/app/i18n";
 
 export async function loader() {
     const categories = await fetchRequest(`${DOMAIN}${CATEGORIES}`);
     return { categories };
 }
 
-export default async function Categories() {
+export default async function Categories({ lng }) {
     const {categories} = await loader();
+    const { t } = await useTranslation(lng)
+
+    const getLocalName = (category) => {
+        if (category && lng) {
+            if (lng === 'ru' && category?.name_ru) {
+                return category?.name_ru;
+            } else if (lng === 'kr' && category?.name_kr) {
+                return category?.name_kr;
+            } else if (lng === 'uz' && category?.name_uz) {
+                return category?.name_uz;
+            } else {
+                return category?.name;
+            }
+        }
+    }
 
     return (
         <div className="bg-gray-100">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-                    <h2 className="text-2xl font-bold text-gray-900">Категории</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">{t('categories')}</h2>
 
                     <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
                         {categories?.length ? categories?.filter((item) => !item?.parent).map((category, index) => (
@@ -34,7 +50,7 @@ export default async function Categories() {
                                 {/*    <span className="absolute inset-0"/>*/}
                                 {/*    {category?.name}*/}
                                 {/*</h3>*/}
-                                <p className="text-base font-semibold text-gray-900 text-center mt-2">{category?.name}</p>
+                                <p className="text-base font-semibold text-gray-900 text-center mt-2">{getLocalName(category)}</p>
                             </Link>
                         )) : ''}
                     </div>

@@ -5,7 +5,7 @@ from .models import Contact, Social
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = ['name', 'contact', 'status']
+        fields = ['name', 'contact', 'contact_uz', 'contact_ru', 'contact_kr', 'status']
 
 
 class SocialSerializer(serializers.ModelSerializer):

@@ -15,7 +15,7 @@ export default async function ProductDetailPage({ params: { lng } }) {
 
     return (
         <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
-            <Order />
+            <Order lng={lng}/>
         </MainLayout>
     );
 }

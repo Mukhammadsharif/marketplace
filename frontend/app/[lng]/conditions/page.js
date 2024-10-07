@@ -15,7 +15,7 @@ export default async function ConditionsPage({ params: { lng } }) {
 
     return (
         <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
-            <Conditions />
+            <Conditions lng={lng}/>
         </MainLayout>
     );
 }

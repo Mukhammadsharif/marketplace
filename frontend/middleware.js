@@ -10,6 +10,23 @@ export const config = {
 }
 
 export function middleware(req) {
+    const { pathname } = req.nextUrl;
+
+    // Bypass middleware for static files and other specific resources
+    if (
+        pathname.startsWith('/favicon.svg') ||
+        pathname.startsWith('/favicon.ico') ||
+        pathname.startsWith('/assets') ||
+        pathname.startsWith('/_next/static') ||
+        pathname.startsWith('/_next/image') ||
+        pathname.startsWith('/sw.js') ||
+        pathname.startsWith('/site.webmanifest') ||
+        pathname.startsWith('/robots.txt') ||
+        pathname.startsWith('/sitemap.xml')
+    ) {
+        return NextResponse.next();  // Allow the request to continue without redirect
+    }
+
     let lng
     if (req.cookies.has(cookieName)) lng = acceptLanguage.get(req.cookies.get(cookieName).value)
     if (!lng) lng = acceptLanguage.get(req.headers.get('Accept-Language'))

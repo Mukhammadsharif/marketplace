@@ -3,7 +3,7 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'http',
+                protocol: 'https',
                 hostname: 'havogroup.uz',
                 // port: '8000',
                 pathname: '/**'
@@ -22,7 +22,7 @@ const nextConfig = {
                 ]
             }
         ]
-    }
+    },
 };
 
 export default nextConfig;

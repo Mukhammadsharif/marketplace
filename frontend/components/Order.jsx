@@ -6,6 +6,7 @@ import {DOMAIN} from "@/helpers/urls";
 import {NextResponse} from "next/server";
 import Modal from "@/components/Modal";
 import {useRouter} from "next/navigation";
+import {useTranslationClient} from "@/app/i18n/client";
 
 // function getCookie(name) {
 //     let cookieValue = null;
@@ -26,20 +27,21 @@ import {useRouter} from "next/navigation";
 // const csrfToken = getCookie('csrftoken');  // Get CSRF token from cookie
 
 
-export default function Order() {
+export default function Order({ lng }) {
     const [modal, setModal] = useState(false)
     const [modalText, setModalText] = useState('')
     const router = useRouter();
+    const { t } = useTranslationClient(lng);
 
     async function POST(event, body) {
         event.preventDefault();
         const {checkout, text} = await  getProductsFromLocalStorage()
 
         if (!body.name || !body.lastname || !body.phone) {
-            setModalText('Пожалуйста, заполните все поля')
+            setModalText(t('please_fill_forms'))
             setModal(true)
         } else if (!text || checkout < 1) {
-            setModalText('Пожалуйста, убедитесь что ваша корзина не пусто')
+            setModalText(t('cart_is_empty'))
             setModal(true)
         } else {
             const res = await fetch(`${DOMAIN}/api/create-order`, {
@@ -109,7 +111,7 @@ export default function Order() {
         const response = await POST(event, formData);
 
         if (response && response.ok) {
-            setModalText('Ваш заказ успешно создан');
+            setModalText(t('order_created'));
             setModal(true);
             localStorage.setItem('products', '');
 
@@ -120,7 +122,7 @@ export default function Order() {
 
     return (
         <div className="isolate bg-white px-6 py-24 sm:py-12 lg:px-8">
-            {modal ? <Modal modal={modal} setModal={setModal} text={modalText} /> : ''}
+            {modal ? <Modal modal={modal} setModal={setModal} text={modalText} lng={lng}/> : ''}
             <div
                 className="absolute inset-x-0 top-[10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[5rem]"
                 aria-hidden="true"
@@ -134,16 +136,16 @@ export default function Order() {
                 />
             </div>
             <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Оформить заказ</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{t('create_order')}</h2>
                 <p className="mt-2 text-lg leading-8 text-gray-600">
-                    Пожалуйста, заполните поля чтобы оформить свой заказ
+                    {t('fill_the_form')}
                 </p>
             </div>
             <form className="mx-auto mt-16 max-w-xl sm:mt-20">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                     <div>
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">
-                            Имя
+                            {t('name')}
                         </label>
                         <div className="mt-2.5">
                             <input
@@ -160,7 +162,7 @@ export default function Order() {
                     </div>
                     <div>
                         <label htmlFor="lastname" className="block text-sm font-semibold leading-6 text-gray-900">
-                            Фамилия
+                            {t('last_name')}
                         </label>
                         <div className="mt-2.5">
                             <input
@@ -177,7 +179,7 @@ export default function Order() {
                     </div>
                     <div className="sm:col-span-2">
                         <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-900">
-                            Email (если есть)
+                            {t('optional_email')}
                         </label>
                         <div className="mt-2.5">
                             <input
@@ -193,7 +195,7 @@ export default function Order() {
                     </div>
                     <div className="sm:col-span-2">
                         <label htmlFor="phone" className="block text-sm font-semibold leading-6 text-gray-900">
-                            Номер телефона
+                            {t('phone_number')}
                         </label>
                         <div className="mt-2.5">
                             <InputMask
@@ -217,7 +219,7 @@ export default function Order() {
                     </div>
                     <div className="sm:col-span-2">
                         <label htmlFor="comment" className="block text-sm font-semibold leading-6 text-gray-900">
-                            Комментарии
+                            {t('comment')}
                         </label>
                         <div className="mt-2.5">
                           <textarea
@@ -268,7 +270,7 @@ export default function Order() {
                         className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                         {/* eslint-disable-next-line react/no-unescaped-entities */}
-                        Оформить
+                        {t('order')}
                     </button>
                 </div>
             </form>

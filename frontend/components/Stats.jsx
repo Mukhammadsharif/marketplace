@@ -1,10 +1,14 @@
-const stats = [
-    { id: 1, name: '100%', value: 'Сертифицированный персонал' },
-    { id: 2, name: 'Качественное выполнение всех работ', value: 'Профессиональный опыт с 2012 года' },
-    { id: 3, name: '100%', value: 'Гарантия на все виды оказываемых услуг' },
-]
+import {useTranslation} from "@/app/i18n";
 
-export default function Stats() {
+export default async function Stats({ lng }) {
+    const { t } = await useTranslation(lng)
+
+    const stats = [
+        { id: 1, name: '100%', value: t('stats_first_value') },
+        { id: 2, name: t('stats_second_name'), value: t('stats_second_value') },
+        { id: 3, name: '100%', value: t('stats_third_value') },
+    ]
+
     return (
         <div className="bg-white py-24 sm:py-32">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">

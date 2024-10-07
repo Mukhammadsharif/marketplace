@@ -2,18 +2,35 @@ import Link from "next/link";
 import fetchRequest from "@/helpers/request";
 import {DOMAIN, PRODUCTS} from "@/helpers/urls";
 import Image from "next/image";
+import {useTranslation} from "@/app/i18n";
 
 export async function loader() {
     const products = await fetchRequest(`${DOMAIN}${PRODUCTS}`);
     return { products };
 }
 
-export default async function Products() {
+export default async function Products({ lng }) {
     const {products} = await loader();
+    const { t } = await useTranslation(lng)
+
+    const getLocalName = (product) => {
+        if (product && lng) {
+            if (lng === 'ru' && product?.name_ru) {
+                return product?.name_ru;
+            } else if (lng === 'kr' && product?.name_kr) {
+                return product?.name_kr;
+            } else if (lng === 'uz' && product?.name_uz) {
+                return product?.name_uz;
+            } else {
+                return product?.name;
+            }
+        }
+    }
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900">Товары</h2>
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900">{t('products')}</h2>
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {products?.length ? products.slice(0, 7).map((product, index) => (
@@ -32,7 +49,7 @@ export default async function Products() {
                                 <div>
                                     <h3 className="text-sm text-gray-700">
                                         <span aria-hidden="true" className="absolute inset-0"/>
-                                        {product?.name}
+                                        {getLocalName(product)}
                                     </h3>
                                     {/*<p className="mt-1 text-sm text-gray-500">{product?.views}</p>*/}
                                 </div>

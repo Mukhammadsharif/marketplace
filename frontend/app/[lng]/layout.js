@@ -25,7 +25,7 @@ export default function RootLayout({ children, params: { lng } }) {
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
       />
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+      <link rel="icon" type="image/svg+xml" href='/favicon.svg'/>
       <title>Havo Air</title>
     </head>
     <body>

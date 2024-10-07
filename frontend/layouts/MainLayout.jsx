@@ -12,11 +12,11 @@ export default function MainLayout({children, categories, contacts, socials, lng
             <div>
                 <Header open={open} setOpen={setOpen} categories={categories} contacts={contacts} lng={lng}/>
 
-                <Cart open={open} setOpen={setOpen}/>
+                <Cart open={open} setOpen={setOpen} lng={lng}/>
 
                 {children}
 
-                <MaterialFooter contacts={contacts} socials={socials}/>
+                <MaterialFooter contacts={contacts} socials={socials} lng={lng}/>
             </div>
         </ContextProvider>
     );

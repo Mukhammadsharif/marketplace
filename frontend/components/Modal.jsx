@@ -6,8 +6,10 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import React, {useEffect} from "react";
+import {useTranslationClient} from "@/app/i18n/client";
 
-export function Modal({ modal, setModal, text}) {
+export function Modal({ modal, setModal, text, lng}) {
+    const { t } = useTranslationClient(lng);
 
     useEffect(() => {
         setTimeout(() => setModal(!modal), 3000);
@@ -35,13 +37,13 @@ export function Modal({ modal, setModal, text}) {
                                     className="mb-6 mt-10"
                                     variant="h4"
                                 >
-                                   Уведомдение
+                                    {t('notification')}
                                 </Typography>
                                 <Typography className="text-[20px] font-normal text-gray-500">
                                     {text}
                                 </Typography>
                                 <Button size="lg" className="mt-8" onClick={() => setModal(!modal)}>
-                                    Закрыть
+                                    {t('close')}
                                 </Button>
                             </div>
                         </CardBody>
