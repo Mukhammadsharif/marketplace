@@ -1,4 +1,7 @@
-export default function Conditions() {
+import {useTranslation} from "@/app/i18n";
+
+export default async function Conditions({ lng }) {
+    const { t} = await useTranslation(lng)
     return (
         <div className="isolate bg-white px-6 py-24 sm:py-12 lg:px-8">
             <div
@@ -14,7 +17,7 @@ export default function Conditions() {
                 />
             </div>
             <div className="mx-auto max-w-2xl text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">О нас</h2>
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{ t('use_conditions' )}</h2>
                 <p className="mt-2 text-lg leading-8 text-gray-600">
 
                 </p>

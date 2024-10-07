@@ -29,6 +29,7 @@ const LanguageSwitcher = ({lng}) => {
 
         const newPath = segments.join('/');
         router.push(newPath); // Use router to navigate to the new path
+        router.refresh();
     };
 
     if (!isClient || !pathname) {

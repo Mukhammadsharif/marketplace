@@ -8,10 +8,7 @@ import {IconButton, Badge} from "@material-tailwind/react";
 import Logo from '../app/assets/logo-01.svg'
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import {useProducts} from "@/components/Context";
-
-const callsToAction = [
-    { name: 'Позвонить', href: '#', icon: PhoneIcon },
-]
+import {useTranslationClient} from "@/app/i18n/client";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -20,13 +17,32 @@ function classNames(...classes) {
 export default function Header({open, setOpen, categories, contacts, lng}) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const { productsLength } = useProducts();
+    const { t } = useTranslationClient(lng);
+
+    const callsToAction = [
+        { name: t('call'), href: '#', icon: PhoneIcon },
+    ]
+
+    const getLocalName = (product) => {
+        if (product && lng) {
+            if (lng === 'ru' && product?.name_ru) {
+                return product?.name_ru;
+            } else if (lng === 'kr' && product?.name_kr) {
+                return product?.name_kr;
+            } else if (lng === 'uz' && product?.name_uz) {
+                return product?.name_uz;
+            } else {
+                return product?.name;
+            }
+        }
+    }
 
     return (
         <header className="bg-white">
             <nav className="mx-auto flex max-w-8xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
                     <Link href="/" className="-m-1.5 p-1.5">
-                        <span className="sr-only">Your Company</span>
+                        <span className="sr-only">Havo Group</span>
                         <Image
                             src={Logo}
                             alt="footer_logo"
@@ -48,7 +64,7 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                     <Popover className="relative">
                         <Popover.Button
                             className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                            Категории
+                            {t('categories')}
                             <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true"/>
                         </Popover.Button>
 
@@ -81,7 +97,7 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                                             </div>
                                             <div className="flex-auto">
                                                 <Link href={`/category-detail/${category?.id}`} className="block font-semibold text-gray-900">
-                                                    {category?.name}
+                                                    {getLocalName(category)}
                                                     <span className="absolute inset-0"/>
                                                 </Link>
                                             </div>
@@ -105,13 +121,13 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                     </Popover>
 
                     <Link href="/about" className="text-sm font-semibold leading-6 text-gray-900">
-                        О нас
+                        {t('about_us')}
                     </Link>
                     <Link href="/policy" className="text-sm font-semibold leading-6 text-gray-900">
-                        Политика конфеденциальности
+                        {t('politics_confidence')}
                     </Link>
                     <Link href="/conditions" className="text-sm font-semibold leading-6 text-gray-900">
-                        Условия пользования
+                        {t('use_conditions')}
                     </Link>
                 </Popover.Group>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -133,7 +149,7 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                     className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
                         <Link href="/" className="-m-1.5 p-1.5">
-                            <span className="sr-only">Your Company</span>
+                            <span className="sr-only">Havo group</span>
                             <Image
                                 src={Logo}
                                 alt="footer_logo"
@@ -157,7 +173,7 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                                         <>
                                             <Disclosure.Button
                                                 className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                                                Категории
+                                                {t('categories')}
                                                 <ChevronDownIcon
                                                     className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
                                                     aria-hidden="true"
@@ -171,7 +187,7 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                                                             href={`/category-detail/${category?.id}`}
                                                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                                         >
-                                                            {category.name}
+                                                            {getLocalName(category)}
                                                         </Disclosure.Button>
                                                 )) : ''}
                                             </Disclosure.Panel>
@@ -182,19 +198,19 @@ export default function Header({open, setOpen, categories, contacts, lng}) {
                                     href="/about"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    О нас
+                                    {t('about_us')}
                                 </Link>
                                 <Link
                                     href="/policy"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Политика конфеденциальности
+                                    {t('politics_confidence')}
                                 </Link>
                                 <Link
                                     href="/conditions"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Условия пользования
+                                    {t('use_conditions')}
                                 </Link>
                             </div>
                             <div className="py-6 flex items-center justify-between">

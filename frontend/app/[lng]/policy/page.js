@@ -15,7 +15,7 @@ export default async function PolicyPage({ params: { lng } }) {
 
     return (
         <MainLayout categories={categories} contacts={contacts} socials={socials} lng={lng}>
-            <Policy />
+            <Policy lng={lng}/>
         </MainLayout>
     );
 }

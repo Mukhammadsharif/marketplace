@@ -1,27 +1,29 @@
 "use client";
 import { Typography } from "@material-tailwind/react";
 import Link from "next/link";
-
-const LINKS = [
-    {
-        title: "Информация",
-        items: [
-            { name : "О нас", link: '/about' },
-            { name: "Политика конфеденциальности", link: '/policy'},
-            { name: "Условия пользования", link: '/conditions' }
-        ],
-    }
-];
+import {useTranslationClient} from "@/app/i18n/client";
 
 const currentYear = new Date().getFullYear();
 
-export default function MaterialFooter({contacts, socials}) {
+export default function MaterialFooter({contacts, socials, lng}) {
+    const { t } = useTranslationClient(lng);
+    const LINKS = [
+        {
+            title: t('information'),
+            items: [
+                { name : t('about_us'), link: '/about' },
+                { name: t('politics_confidence'), link: '/policy'},
+                { name: t('use_conditions'), link: '/conditions' }
+            ],
+        }
+    ];
+
     return (
         <footer className="relative w-full">
             <div className="mx-auto w-full px-8">
                 <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2">
                     <Typography variant="h5" className="mb-6">
-                        Material Tailwind
+                        Havo group
                     </Typography>
                     <div className="grid grid-cols-2 justify-between gap-4">
                         {LINKS.map(({title, items}) => (
@@ -48,13 +50,13 @@ export default function MaterialFooter({contacts, socials}) {
                             </ul>
                         ))}
 
-                        <ul key={'Контактные данные'}>
+                        <ul key={t('contacts')}>
                             <Typography
                                 variant="small"
                                 color="blue-gray"
                                 className="mb-3 font-medium opacity-40"
                             >
-                                Контактные данные
+                                {t('contacts')}
                             </Typography>
                             <li>
                                 <Typography
@@ -63,7 +65,7 @@ export default function MaterialFooter({contacts, socials}) {
                                     color="gray"
                                     className="py-1.5 font-normal transition-colors hover:text-blue-gray-900"
                                 >
-                                    Телефон: {contacts?.find((item) => item?.name === 'phone' && item.status)?.contact}
+                                    {t('telephone')}: {contacts?.find((item) => item?.name === 'phone' && item.status)?.contact}
                                 </Typography>
                             </li>
 
@@ -74,7 +76,7 @@ export default function MaterialFooter({contacts, socials}) {
                                     color="gray"
                                     className="py-1.5 font-normal transition-colors hover:text-blue-gray-900"
                                 >
-                                    Telegram: {contacts?.find((item) => item?.name === 'telegram' && item.status)?.contact}
+                                    {t('telegram')}: {contacts?.find((item) => item?.name === 'telegram' && item.status)?.contact}
                                 </Typography>
                             </li>
 
@@ -85,7 +87,7 @@ export default function MaterialFooter({contacts, socials}) {
                                     color="gray"
                                     className="py-1.5 font-normal transition-colors hover:text-blue-gray-900"
                                 >
-                                    Почта: {contacts?.find((item) => item?.name === 'mail' && item.status)?.contact}
+                                    {t('mail')}: {contacts?.find((item) => item?.name === 'mail' && item.status)?.contact}
                                 </Typography>
                             </li>
 
@@ -97,7 +99,7 @@ export default function MaterialFooter({contacts, socials}) {
                                     color="gray"
                                     className="py-1.5 font-normal transition-colors hover:text-blue-gray-900"
                                 >
-                                    Адрес: {contacts?.find((item) => item?.name === 'address' && item.status)?.contact}
+                                    {t('address')}: {contacts?.find((item) => item?.name === 'address' && item.status)?.contact}
                                 </Typography>
                             </li>
                         </ul>
@@ -109,8 +111,7 @@ export default function MaterialFooter({contacts, socials}) {
                         variant="small"
                         className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
                     >
-                        &copy; {currentYear} <a href="https://material-tailwind.com/">Havo group</a>. All
-                        Rights Reserved.
+                        &copy; {currentYear} <a href="https://material-tailwind.com/">Havo group</a>. {t('all_rights')}
                     </Typography>
                     <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
                         <Typography

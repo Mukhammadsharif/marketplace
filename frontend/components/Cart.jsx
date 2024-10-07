@@ -4,12 +4,14 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import Link from "next/link";
 import {useProducts} from "@/components/Context";
+import {useTranslationClient} from "@/app/i18n/client";
 
-export default function Cart({ open, setOpen}) {
+export default function Cart({ open, setOpen, lng }) {
     const [products, setProducts] = useState([])
     const [sum, setSum] = useState(0)
     const [toggle, setToggle] = useState(false)
     const { productToggle, setProductToggle } = useProducts();
+    const { t } = useTranslationClient(lng);
 
     function getProductsFromLocalStorage() {
         if (typeof window !== 'undefined') {
@@ -59,6 +61,20 @@ export default function Cart({ open, setOpen}) {
         }
     }
 
+    const getLocalName = (product) => {
+        if (product && lng) {
+            if (lng === 'ru' && product?.name_ru) {
+                return product?.name_ru;
+            } else if (lng === 'kr' && product?.name_kr) {
+                return product?.name_kr;
+            } else if (lng === 'uz' && product?.name_uz) {
+                return product?.name_uz;
+            } else {
+                return product?.name;
+            }
+        }
+    }
+
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -90,7 +106,7 @@ export default function Cart({ open, setOpen}) {
                                     <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                                         <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                                             <div className="flex items-start justify-between">
-                                                <Dialog.Title className="text-lg font-medium text-gray-900">Корзина</Dialog.Title>
+                                                <Dialog.Title className="text-lg font-medium text-gray-900">{t('cart')}</Dialog.Title>
                                                 <div className="ml-3 flex h-7 items-center">
                                                     <button
                                                         type="button"
@@ -98,7 +114,7 @@ export default function Cart({ open, setOpen}) {
                                                         onClick={() => setOpen(false)}
                                                     >
                                                         <span className="absolute -inset-0.5" />
-                                                        <span className="sr-only">Close panel</span>
+                                                        <span className="sr-only">{t('close_panel')}</span>
                                                         <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                                                     </button>
                                                 </div>
@@ -121,11 +137,11 @@ export default function Cart({ open, setOpen}) {
                                                                     <div>
                                                                         <div className="flex justify-between text-base font-medium text-gray-900">
                                                                             <h3>
-                                                                                <Link href={`/product-detail/${product?.product?.id}`}>{product?.product?.name}</Link>
+                                                                                <Link href={`/product-detail/${product?.product?.id}`}>{getLocalName(product?.product)}</Link>
                                                                             </h3>
                                                                             <p className="ml-4">{product?.model?.price}</p>
                                                                         </div>
-                                                                        <p className="mt-1 text-sm text-gray-500">{product?.model?.name}</p>
+                                                                        <p className="mt-1 text-sm text-gray-500">{getLocalName(product?.model)}</p>
                                                                     </div>
                                                                     <div
                                                                         className="flex flex-1 items-end justify-between text-sm mt-2">
@@ -159,7 +175,7 @@ export default function Cart({ open, setOpen}) {
                                                                                 type="button"
                                                                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                                                                             >
-                                                                                Удалить
+                                                                                {t('delete')}
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -173,27 +189,27 @@ export default function Cart({ open, setOpen}) {
 
                                         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                                             <div className="flex justify-between text-base font-medium text-gray-900">
-                                                <p>Итого</p>
+                                                <p>{t('sum')}</p>
                                                 <p>{sum}</p>
                                             </div>
-                                            <p className="mt-0.5 text-sm text-gray-500">Подтвердите заказ</p>
+                                            <p className="mt-0.5 text-sm text-gray-500">{t('confirm_order')}</p>
                                             <div className="mt-6">
                                                 <Link
                                                     href={'/order'}
                                                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                                                 >
-                                                    Заказать
+                                                    {t('book')}
                                                 </Link>
                                             </div>
                                             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                                                 <p>
-                                                    или{' '}
+                                                    {t('or')}{' '}
                                                     <button
                                                         type="button"
                                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                                         onClick={() => setOpen(false)}
                                                     >
-                                                        Продолжить покупку
+                                                        {t('go_on_shop')}
                                                         <span aria-hidden="true"> &rarr;</span>
                                                     </button>
                                                 </p>

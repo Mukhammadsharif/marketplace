@@ -3,38 +3,41 @@ import Guarantee from '../app/assets/guarantee.png'
 import Timing from '../app/assets/timing.png'
 import Clients from '../app/assets/clients.png'
 import Year from '../app/assets/year.png'
+import {useTranslation} from "@/app/i18n";
 
-const people = [
-    {
-        name: '100%',
-        role: 'Гарантия качества',
-        imageUrl: Guarantee,
-    },
-    {
-        name: '100%',
-        role: 'Соблюдение сроков',
-        imageUrl: Timing,
-    },
-    {
-        name: 'более 54',
-        role: 'Постоянных клиентов',
-        imageUrl: Clients,
-    },
-    {
-        name: '14 лет',
-        role: 'Опыта',
-        imageUrl: Year,
-    },
-]
+export default async function Information({ lng }) {
+    const { t } = await useTranslation(lng)
 
-export default function Information() {
+    const people = [
+        {
+            name: '100%',
+            role: t('guarantee'),
+            imageUrl: Guarantee,
+        },
+        {
+            name: '100%',
+            role: t('timing'),
+            imageUrl: Timing,
+        },
+        {
+            name: t('clients_description'),
+            role: t('clients'),
+            imageUrl: Clients,
+        },
+        {
+            name: t('year_description'),
+            role: t('year'),
+            imageUrl: Year,
+        },
+    ]
+
     return (
         <div className="bg-white py-24 sm:py-32">
             <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
                 <div className="max-w-2xl">
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Наши преимущества</h2>
+                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{t('our_advantages')}</h2>
                     <p className="mt-6 text-lg leading-8 text-gray-600">
-                        Комплексные решения системы вентиляции и кондиционирования воздуха
+                        {t('complex_solution')}
                     </p>
                 </div>
                 <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
